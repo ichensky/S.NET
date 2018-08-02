@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Copyright>Ivan Chensky</Copyright>
+    <PackageLicenseUrl>https://github.com/ichensky</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ichensky</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+</Project>
