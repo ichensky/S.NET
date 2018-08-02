@@ -3,10 +3,21 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Copyright>Ivan Chensky</Copyright>
-    <PackageLicenseUrl>https://github.com/ichensky</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/ichensky</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/ichensky/S.NET/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/ichensky/S.NET</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
+    <Authors>Ivan Chensky</Authors>
+    <Company>pocolab.com</Company>
+    <RepositoryUrl>https://github.com/ichensky/S.NET</RepositoryUrl>
+    <Description>s-expression serilizer/deserilizer
+
+Implementation of s-expression serializion/deserialization in C# .NET .
+
+Very useful for reading settings files when needed smth more then just key-value dicrionary. 
+Much more human readable then ugly json,xml,yaml, etc.</Description>
+    <PackageTags>s-expression,sexpression,  sexp</PackageTags>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
 </Project>

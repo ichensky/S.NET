@@ -10,4 +10,11 @@ Very useful for reading settings files when needed smth more then just key-value
 Much more human readable then ugly json,xml,yaml, etc. 
 
 ## Visual Studio highlighting
-Use Visual Studio [extention](https://marketplace.visualstudio.com/items?itemName=SergeK.LispIntegration)
+Use Visual Studio for clojure language [extention](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.SyntaxHighlightingPack)
+
+
+## Examples
+```clojure
+(user (name "Bob")
+      (years "200"))
+```
