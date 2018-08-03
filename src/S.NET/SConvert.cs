@@ -10,25 +10,42 @@ namespace S.NET
 {
     public static class SConvert
     {
+        #region Deserialize
         public static T DeserializeObject<T>(string st)
         {
             var se = new STreeConvert();
 
-            var snode = se.Deserialize(st);
+            var snode = se.Deserialize(st).Items.FirstOrDefault() as SNodeFull;
 
             var type = typeof(T);
-            var instance = (T)Deserialize(snode, type);
+            var instance = (T)DeserializeValue(snode, type, false);
 
             return instance;
         }
 
-        private static object Value(Type type, SNodeFull item, bool skip = true)
+        private static object DeserializeValue(SNodeFull item, Type type, bool skip = true)
         {
 
             object value = null;
             if (IsPrimitive(type))
             {
-                var str = item.IsLeaf ? item.Name : item.Items.Skip(1).First().Name;
+                string str = null;
+                if (item.IsLeaf)
+                {
+                    str = item.Name;
+                }
+                else
+                {
+                    if (item.Items.Count==1)
+                    {
+                        str = item.Items.First().Name;
+                    }
+                    else
+                    {
+                        str = item.Items.Skip(1).First().Name;
+                    }
+                }
+
                 if (type.IsEnum)
                 {
                     value = Enum.Parse(type, str);
@@ -38,7 +55,7 @@ namespace S.NET
                     value = Convert.ChangeType(str, type);
                 }
             }
-            else if (type.GetInterface("System.Collections.IEnumerable") != null)
+            else if (IsIEnumerable(type))
             {
                 var listType = type.GenericTypeArguments.FirstOrDefault();
                 var listSNodes = item.Items.AsEnumerable();
@@ -47,12 +64,12 @@ namespace S.NET
                     listSNodes = listSNodes.Skip(1);
                 }
 
-                var nextSkip = listType.GetInterface("System.Collections.IEnumerable") == null;
+                var nextSkip = !(type.GenericTypeArguments.Length==1 && IsIEnumerable(listType));
 
                 value = Activator.CreateInstance(type);
                 foreach (var lsnode in listSNodes)
                 {
-                    type.GetMethod("Add").Invoke(value, new[] { Value(listType, lsnode as SNodeFull, nextSkip) });
+                    type.GetMethod("Add").Invoke(value, new[] { DeserializeValue(lsnode as SNodeFull, listType, nextSkip) });
                 }
             }
             else
@@ -75,7 +92,7 @@ namespace S.NET
                 {
                     var name = prop.Name;
 
-                    var value = Value(prop.PropertyType, item as SNodeFull);
+                    var value = DeserializeValue( item as SNodeFull, prop.PropertyType);
                     prop.SetValue(instance, value, null);
                 }
             }
@@ -83,22 +100,13 @@ namespace S.NET
             return instance;
         }
 
-        public static string SerializeObject(object obj)
-        {
-            var sb = new StringBuilder();
-            var type = obj.GetType();
-            var props = type.GetRuntimeProperties();
-            foreach (var prop in props)
-            {
-                sb.AppendLine(Value2222(obj, prop));
-            }
+        #endregion Deserialize
 
-            return sb.ToString();
-        }
+        #region Serialize
 
         private static bool IsPrimitive(Type type) { return type.IsPrimitive || type == typeof(string) || type.IsEnum; }
-
-        private static string PrimitivValue(object val, Type type)
+        private static bool IsIEnumerable(Type type) { return type.GetInterface("System.Collections.IEnumerable") != null; }
+        private static string SerializePrimitivValue(object val, Type type)
         {
 
             if (type.IsEnum)
@@ -107,62 +115,67 @@ namespace S.NET
             }
             if (type == typeof(string))
             {
-                return $"\"{val}\")";
+                return $"\"{val}\"";
             }
             else
             {
                 return val.ToString();
             }
         }
-
-        private static string Value2222(object obj, PropertyInfo property, bool addName = true)
+        public static string SerializeObject(object obj)
         {
             var sb = new StringBuilder();
-            var type = property.PropertyType;
+
+            sb.AppendLine($"({SerializeObjectValue(obj)})");
+
+            return sb.ToString();
+        }
+
+
+        public static string SerializeObjectValue(object obj)
+        {
+            var sb = new StringBuilder();
+            var type = obj.GetType();
 
             if (IsPrimitive(type))
             {
-                var val = property.GetValue(obj, null);
-                sb.Append($"({property.Name} {PrimitivValue(val, type)}");
+                sb.Append($"{SerializePrimitivValue(obj, type)}");
             }
-
-            else if (type.GetInterface("System.Collections.IEnumerable") != null)
+            else if (IsIEnumerable(type))
             {
-                var listType = type.GenericTypeArguments.FirstOrDefault();
-                var values = (IEnumerable)(property.GetValue(obj, null));
+                var values = (IEnumerable)obj;
 
-                sb.Append($"(");
-                if (addName)
-                {
-                    sb.Append($"{property.Name} ");
-                }
+                    var listType = type.GenericTypeArguments.FirstOrDefault();
+                var flag = type.GenericTypeArguments.Length == 1 && IsPrimitive(listType);
 
-                if (IsPrimitive(listType))
+                if (flag)
                 {
-                    sb.Append($"{string.Join(" ", values.Cast<object>().Select(x => PrimitivValue(x, listType)))}");
+                        sb.Append($"{string.Join(" ", values.Cast<object>().Select(x => SerializePrimitivValue(x, listType)))}");
                 }
                 else
                 {
-
-                    //var newAddName = listType.GetInterface("System.Collections.IEnumerable") == null;
-
-                    //var pp = values.GetType().GetRuntimeProperties().FirstOrDefault(x => x.PropertyType == listType);
-
-                    //foreach (var value in values)
-                    //{
-                    //    var dfsa = Value2222(value, pp, newAddName);
-                    //    sb.AppendLine($"({dfsa})");
-                    //}
+                    foreach (var value in values)
+                    {
+                        var val = SerializeObjectValue(value);
+                        sb.AppendLine($"({val})");
+                    }
                 }
-                sb.Append($")");
-
             }
             else
             {
-                var val = SerializeObject(property.GetValue(obj, null));
-                sb.Append($"({property.Name} {val})");
+                var props = type.GetRuntimeProperties();
+                foreach (var prop in props)
+                {
+                    sb.Append($"({prop.Name} ");
+                    var val = prop.GetValue(obj);
+                    sb.Append(SerializeObjectValue(val));
+                    sb.AppendLine($")");
+                }
             }
             return sb.ToString();
         }
+
+
+        #endregion Serialize
     }
 }

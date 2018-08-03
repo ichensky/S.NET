@@ -6,7 +6,7 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/ichensky/S.NET/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ichensky/S.NET</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.0.4</Version>
     <Authors>Ivan Chensky</Authors>
     <Company>pocolab.com</Company>
     <RepositoryUrl>https://github.com/ichensky/S.NET</RepositoryUrl>
@@ -18,6 +18,8 @@ Very useful for reading settings files when needed smth more then just key-value
 Much more human readable then ugly json,xml,yaml, etc.</Description>
     <PackageTags>s-expression,sexpression,  sexp</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/S-expression_tree.svg/210px-S-expression_tree.svg.png</PackageIconUrl>
+    <PackageReleaseNotes>add serializaton</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
