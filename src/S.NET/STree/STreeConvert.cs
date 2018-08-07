@@ -7,19 +7,18 @@ namespace S.NET.STree
 {
     public class STreeConvert
     {
-        public const string ErrorStrNotValidFormat = "Not valid format.";
+        public const string ErrorStrNotValidFormat = "Not valid format."; //Unexpected character encountered while parsing value
         public char[] TrimArr = new char[] { ' ', '\r', '\n', '\t' };
 
         public SNode Deserialize(string st)
         {
             if (st == null)
             {
-                return null;
+                throw new ArgumentNullException(st);
             }
-            st = st.Trim(TrimArr);
-            if (string.IsNullOrEmpty(st))
+            else if (st.Length<2)
             {
-                return null;
+                throw new ArgumentException(st);
             }
 
             var node = new SNodeFull(false);
@@ -27,45 +26,49 @@ namespace S.NET.STree
             return node;
         }
 
-        private void Deserialize(ref string st, SNodeFull root)
+        private int Deserialize(ref string st, SNodeFull root)
         {
             st = st.Trim(TrimArr);
+            st = RemoveComment(st);
             if (string.IsNullOrEmpty(st))
             {
-                return;
+                return 0;
             }
 
             SNodeFull node = null;
             SNodeFull r = root;
             do
             {
-                while (st[0] == ')')
+                if (st[0] == ')')
                 {
-                    st = st.Remove(0, 1).TrimStart(TrimArr);
-                    if (st.Length == 0)
+                    st = st.Remove(0, 1);
+                    if (r.RootNode == null)
                     {
-                        return;
+                        throw new Exception(ErrorStrNotValidFormat);
                     }
-                    r = r.RootNode;
-                    if (r == null)
+                    return 1;
+                }
+                else if (st[0] == '(')
+                {
+                    st = st.Remove(0, 1);
+                    node = new SNodeFull(false);
+                    r.AddNode(node);
+                    var x= Deserialize(ref st, node);
+                    if (x!=1)
                     {
                         throw new Exception(ErrorStrNotValidFormat);
                     }
                 }
-                node = DeserializeItem(ref st);
-                st = st.Trim(TrimArr);
-
-                r.AddNode(node);
-
-                if (!node.IsLeaf)
+                else
                 {
-                    Deserialize(ref st, node);
+                    node = DeserializeItem(ref st);
+                    r.AddNode(node);
                 }
-
+                st = st.Trim(TrimArr);
                 st = RemoveComment(st);
             }
             while (st.Length > 0);
-
+            return 0;
         }
         private string RemoveComment(string str)
         {
@@ -86,13 +89,6 @@ namespace S.NET.STree
 
         private SNodeFull DeserializeItem(ref string st)
         {
-
-            if (st[0] == '(')
-            {
-                st = st.Remove(0, 1);
-                return new SNodeFull(false);
-            }
-
             var x = 0;
             var esc = 0;
             for (int i = 0; i < st.Length; i++)
@@ -137,6 +133,7 @@ namespace S.NET.STree
                     st = RemoveComment(';' + st);
                 }
             }
+
             return new SNodeFull(head, true);
         }
     }

@@ -9,20 +9,24 @@ using System.Threading.Tasks;
 
 namespace S.NET.Test
 {
-    class Cap {
-        public string Name { get; set; }
-        public int Years { get; set; }
-    }
-    class Kk {
-       // public int MyProperty { get; set; }
-        public List<Cap> Vv { get; set; }
-    }
+  
+    
     class Program
     {
       
         static void Main(string[] args)
         {
-            var str = File.ReadAllText("settings.clj");
+            //var x1 = SConvert.DeserializeObject<object>("((()(5))");
+            var x1 = SConvert.DeserializeObject<decimal>("(4.3)");
+
+            // var settings = SConvert.DeserializeObject<string>("(5)");
+            //var settings = SConvert.DeserializeObject<string>($"({" "})");
+
+            //var settings = SConvert.DeserializeObject<Settings>(")");
+            //var settings = SConvert.DeserializeObject<Settings>("(5))");
+
+
+            //var str = File.ReadAllText("settings.clj");
             //var settings = SConvert.DeserializeObject<Settings>(str);
 
 
@@ -32,12 +36,11 @@ namespace S.NET.Test
             //dict.Add("keyyy", new Kk { MyProperty = 24 });
 
 
-            
+            //var ms = new Asa{ Name="asa1", BoaProp=new Boa { Goa="boa1", AsaProp=new Asa { Name="asa2" } }  };
 
-            var rr = SConvert.SerializeObject( new Kk() { Vv = new List<Cap> {
-                new Cap{ Name="Bob" },
-                new Cap{ Name="Carl" }
-            } });
+
+
+            //var rr = SConvert.SerializeObject(ms, Formatting.Indented);
         }
     }
 }
