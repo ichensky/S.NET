@@ -43,7 +43,7 @@ namespace S.NET.Serialization
             var sb = new StringBuilder();
             var type = obj.GetType();
 
-            if (type.IsPrimitive())
+            if (type.IsPrimitive()||type.IsValueType)
             {
                 sb.Append($"{SerializePrimitivValue(obj, type)}");
             }

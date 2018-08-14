@@ -99,9 +99,13 @@ namespace S.NET.STree
                     {
                         esc = 1;
                     }
-                    else if (esc == 1 && (i > 0 && st[i - 1] == '\\'))
+                    else if (esc == 1 && st[i - 1] == '\\')
                     {
-                        throw new Exception(ErrorStrNotValidFormat);
+                        st=st.Remove(i - 1,1);
+                        i--;
+                        continue;
+                        
+                        //throw new Exception(ErrorStrNotValidFormat);
                     }
                     else
                     {

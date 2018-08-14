@@ -24,7 +24,7 @@ namespace S.NET.Serialization
         private object DeserializeValue(SNodeFull item, Type type, bool skip = true)
         {
             object value = null;
-            if (type.IsPrimitive())
+            if (type.IsPrimitive()|| type.IsValueType)
             {
                 string str = null;
                 if (item.IsLeaf)
@@ -51,6 +51,10 @@ namespace S.NET.Serialization
                 if (type.IsEnum)
                 {
                     value = Enum.Parse(type, str);
+                }
+                else if (type.IsDateTimeOffset())
+                {
+                    value = DateTimeOffset.Parse(str);
                 }
                 else
                 {

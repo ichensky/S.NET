@@ -13,11 +13,20 @@ namespace S.NET.Test
     
     class Program
     {
-      
+        public enum TestEnum
+        {
+            None = 0,
+            Time = 1,
+            Frame = 2
+        }
+
+
         static void Main(string[] args)
         {
-            //var x1 = SConvert.DeserializeObject<object>("((()(5))");
-            var x1 = SConvert.DeserializeObject<decimal>("(4.3)");
+            var xxx = SConvert.DeserializeObject<TestEnum>("(1)");
+            //var xx = SConvert.DeserializeObject<DateTime>("(\"8/14/2018 6:27:22 AM\")");
+            //var x1 = SConvert.DeserializeObject<byte>("(5)");
+            //var x1 = SConvert.DeserializeObject<decimal>($"(\"\\\"\")");
 
             // var settings = SConvert.DeserializeObject<string>("(5)");
             //var settings = SConvert.DeserializeObject<string>($"({" "})");
@@ -39,6 +48,7 @@ namespace S.NET.Test
             //var ms = new Asa{ Name="asa1", BoaProp=new Boa { Goa="boa1", AsaProp=new Asa { Name="asa2" } }  };
 
 
+            var rr = SConvert.SerializeObject(new { x=DateTimeOffset.UtcNow }, Formatting.Indented);
 
             //var rr = SConvert.SerializeObject(ms, Formatting.Indented);
         }

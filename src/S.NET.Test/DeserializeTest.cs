@@ -43,15 +43,28 @@ namespace S.NET.Test
             Assert.Throws<Exception>(() => SConvert.DeserializeObject<object>("(()()5))"));
         }
 
+        [Fact]
         public static void ExceptionInt()
         {
             Assert.Throws<Exception>(() => SConvert.DeserializeObject<int>("()"));
         }
 
         [Fact]
+        public static void ExceptionBoolean()
+        {
+            Assert.Throws<FormatException>(() => SConvert.DeserializeObject<bool>("(1)"));
+        }
+        [Fact]
+        public static void ExceptionChar()
+        {
+            Assert.Throws<FormatException>(() => SConvert.DeserializeObject<char>("(xx)"));
+        }
+
+        [Fact]
         public static void Int()
         {
             Assert.Equal(4, SConvert.DeserializeObject<int>("(4)"));
+            Assert.Equal(-205, SConvert.DeserializeObject<int>("(-205)"));
         }
         [Fact]
         public static void Double()
@@ -69,6 +82,12 @@ namespace S.NET.Test
         {
             Assert.Equal(TestEnum.Time, SConvert.DeserializeObject<TestEnum>("(1)"));
         }
+        [Fact]
+        public static void Boolean()
+        {
+            Assert.True(SConvert.DeserializeObject<bool>("(true)"));
+            Assert.True(SConvert.DeserializeObject<bool>("(True)"));
+        }
 
         [Fact]
         public static void String()
@@ -81,6 +100,35 @@ namespace S.NET.Test
             Assert.Equal("hello world",SConvert.DeserializeObject<string>($"(\"hello world\")"));
             Assert.Equal("#$123*7^&ashfks", SConvert.DeserializeObject<string>($"(#$123*7^&ashfks)"));
             Assert.Equal("(",SConvert.DeserializeObject<string>($"(\"(\")"));
+            Assert.Equal("\"",SConvert.DeserializeObject<string>($"(\"\\\"\")"));
+            Assert.Equal("5\"5",SConvert.DeserializeObject<string>($"(\"5\\\"5\")"));
+            Assert.Equal("5(\"5",SConvert.DeserializeObject<string>($"(\"5(\\\"5\")"));
+            Assert.Equal("5(\"\"5",SConvert.DeserializeObject<string>($"(\"5(\\\"\\\"5\")"));
+        }
+
+
+        [Fact]
+        public static void Char()
+        {
+            Assert.Equal('x', SConvert.DeserializeObject<char>("(x)"));
+        }
+
+        [Fact]
+        public static void Byte()
+        {
+            Assert.Equal(5, SConvert.DeserializeObject<byte>("(5)"));
+        }
+
+        [Fact]
+        public static void DateTime()
+        {
+            Assert.Equal(new DateTime(2018,8,14,6,27,22,0,0), SConvert.DeserializeObject<DateTime>("(\"8/14/2018 6:27:22 AM\")"));
+        }
+
+        [Fact]
+        public static void DateTimeOffset()
+        {
+            Assert.Equal(new DateTimeOffset(2018, 8, 14, 6, 27, 22,0,new TimeSpan(2,0,0)), SConvert.DeserializeObject<DateTimeOffset>("(\"8/14/2018 6:27:22 AM +02:00\")"));
         }
 
 

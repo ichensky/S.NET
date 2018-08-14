@@ -6,7 +6,7 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/ichensky/S.NET/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ichensky/S.NET</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.5</Version>
+    <Version>1.0.7</Version>
     <Authors>Ivan Chensky</Authors>
     <Company>pocolab.com</Company>
     <RepositoryUrl>https://github.com/ichensky/S.NET</RepositoryUrl>
@@ -14,12 +14,16 @@
 
 Implementation of s-expression serializion/deserialization in C# .NET .
 
-Very useful for reading settings files when needed smth more then just key-value dicrionary. 
-Much more human readable then ugly json,xml,yaml, etc.</Description>
-    <PackageTags>s-expression,sexpression,  sexp</PackageTags>
+Very useful for reading config files when needed smth more then just key-value dicrionary. 
+Much more human readable then ugly json,xml,yaml, etc. 
+Comparing to: 
+- json.   In s-exp you can put comments; you do not need make up text by comas; syntax much more compact.
+- xml.    In s-exp you can put comments anywhere in the text; syntax much more compact.
+- yaml. In s-exp you can put comments anywhere in the text; you do not need make up text by spaces;</Description>
+    <PackageTags>s-expression,sexpression, sexp</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/S-expression_tree.svg/210px-S-expression_tree.svg.png</PackageIconUrl>
-    <PackageReleaseNotes>add support of generic lists with multiple types</PackageReleaseNotes>
+    <PackageReleaseNotes>fix bugs with deserialization</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
