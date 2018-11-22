@@ -9,7 +9,7 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/ichensky/S.NET/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ichensky/S.NET</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
     <Authors>Ivan Chensky</Authors>
     <Company>pocolab.com</Company>
     <RepositoryUrl>https://github.com/ichensky/S.NET</RepositoryUrl>
@@ -26,7 +26,7 @@ Comparing to:
     <PackageTags>s-expression,sexpression, sexp</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/S-expression_tree.svg/210px-S-expression_tree.svg.png</PackageIconUrl>
-    <PackageReleaseNotes>fix bugs with deserialization</PackageReleaseNotes>
+    <PackageReleaseNotes>add multiplatform support</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
