@@ -1,7 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <!--<TargetFramework>netstandard2.0</TargetFramework>-->
+    <TargetFrameworks Condition="'$(LibraryFrameworks)'==''">net45;netstandard2.0;</TargetFrameworks>
+    <TargetFrameworks Condition="'$(LibraryFrameworks)'!=''">$(LibraryFrameworks)</TargetFrameworks>
+
     <Copyright>Ivan Chensky</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ichensky/S.NET/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ichensky/S.NET</PackageProjectUrl>
