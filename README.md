@@ -1,3 +1,10 @@
+# NOW WAR IN UKRAINE
+
+# rusSIAN FASCISTS ARE DENIED ACCESS TO THE REPOSITORY
+
+---
+
+
 # S.NET
 ![Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/S-expression_tree.svg/210px-S-expression_tree.svg.png)
 
